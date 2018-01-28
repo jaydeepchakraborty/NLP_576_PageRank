@@ -47,9 +47,8 @@ spark
     val df = inputRowsLst.toDF()
     df.printSchema()
     df.createOrReplaceTempView("dbkwik_table")
-    val dbOutIn = spark.sql("SELECT sub, obj FROM dbkwik_table").map(t => t(0).toString()).collect()
+    val uPredicates = spark.sql("SELECT DISTINCT obj FROM dbkwik_table").map(t => t(0).toString()).collect()
     
-    val inputRowsGpBy = dbOutIn.groupByKey()
     println(uPredicates.length)
   }
 
