@@ -18,6 +18,7 @@ object SparkPageRank_our {
    val conf = new SparkConf().setAppName("page_rank").setMaster("local[*]")
 
     val spark = SparkSession.builder.config(conf).getOrCreate()
+        spark.sparkContext.setLogLevel("ERROR")
 
     val iters = 40
     
@@ -27,32 +28,55 @@ object SparkPageRank_our {
     val inputDbFile = spark.sparkContext.textFile(db_file_path)
     val lines_2 = inputDbFile.map(dbkwikDs)
     val lines = lines_2.filter{x => x != ""}
+
    
-    
-    val links = lines.map{ s =>
+    val in_links = lines.map{ s =>
       val parts = s.split("\\s+")
       (parts(0), parts(1))
     }.distinct().groupByKey().cache()
     
+    val out_links = lines.map{ s =>
+      val parts = s.split("\\s+")
+      (parts(1), "")
+    }.distinct().groupByKey().cache()
+    
+    
+    val links = in_links.union(out_links)
+    
+//    println("------------")
+//    
+//    links.foreach(println)
+    
+//    links.flatMap{case (obj, subj) => }
+    
     var ranks = links.mapValues(v => 0.1)
+    
+     var erf = outputPath_1 + Calendar.getInstance().getTime()
+    spark.sparkContext.parallelize(links.join(ranks).collect()).coalesce(1).saveAsTextFile(erf);
+  
+    
+//    links.join(ranks).foreach(println)
+//    
+//    println("------------")
+//    
+//    links.join(ranks).values.foreach(println)
+    
+//       links.join(ranks).values.flatMap(_._1).foreach(println)
 
     for (i <- 1 to iters) {
       val contribs = links.join(ranks).values.flatMap{ case (urls, rank) =>
         val size = urls.size
+//        println(size.toDouble)
         urls.map(url => (url, rank / size))
       }
       ranks = contribs.reduceByKey(_ + _).mapValues(0.15 + 0.85 * _)
-      println("--- START ---")
-      contribs.foreach{print}
-      println("--- END ---")
+      println(i)
+      contribs.foreach(println)
     }
 
     val output = ranks.collect()
     output.foreach(tup => println(tup._1 + " has rank: " + tup._2 + "."))
 
-    
-    var erf = outputPath_1 + Calendar.getInstance().getTime()
-    spark.sparkContext.parallelize(output).coalesce(1).saveAsTextFile(erf);
     
     spark.stop()
   }
