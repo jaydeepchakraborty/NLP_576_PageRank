@@ -4,102 +4,98 @@ import java.util.Calendar
 
 import org.apache.spark.SparkConf
 import org.apache.spark.rdd.RDD.rddToPairRDDFunctions
-import org.apache.spark.sql.SparkSession
+//import org.apache.spark.sql.SparkSession
+
+import org.apache.spark.graphx._
+import org.apache.spark.graphx.lib.PageRank
+import org.apache.spark.graphx.GraphLoader
+import org.apache.spark.SparkContext
 
 object SparkPageRank_our {
 
-      val db_file_path = "/Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/test.nt"
-//      val db_file_path = "/Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/urldata.txt"
-      val outputPath_1 = "/Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/incomingPerPage.txt"
- 
-  
-    def main(args: Array[String]) {
-     
-   val conf = new SparkConf().setAppName("page_rank").setMaster("local[*]")
+//    val db_file_path = "/Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/test.nt"
+  val db_file_path = "/Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/dbkwik.nt"
+  val outputPath_1 = "/Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/Rank"
 
-    val spark = SparkSession.builder.config(conf).getOrCreate()
-        spark.sparkContext.setLogLevel("ERROR")
+  def main(args: Array[String]) {
+    try {
+      var start_time = Calendar.getInstance().getTime()
+      val conf = new SparkConf().setAppName("page_rank").setMaster("local[*]").setMaster("local[*]")
+    .set("spark.driver.memory", "4G")
+    .set("spark.executor.cores","2")
+      .set("spark.executor.memory", "4G")
+      .set("spark.eventLog.enabled","true")
+      .set("spark.eventLog.dir", "/Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576")
+      
 
-    val iters = 40
-    
-//    val lines_1 = spark.read.textFile(args(0)).rdd
-    
-//    val lines = spark.sparkContext.textFile(db_file_path)
-    val inputDbFile = spark.sparkContext.textFile(db_file_path)
-    val lines_2 = inputDbFile.map(dbkwikDs)
-    val lines = lines_2.filter{x => x != ""}
+//      val spark = SparkSession.builder.config(conf).getOrCreate()
+      val sc = new SparkContext(conf)
+      sc.setLogLevel("ERROR")
 
-   
-    val in_links = lines.map{ s =>
-      val parts = s.split("\\s+")
-      (parts(0), parts(1))
-    }.distinct().groupByKey().cache()
-    
-    val out_links = lines.map{ s =>
-      val parts = s.split("\\s+")
-      (parts(1), "")
-    }.distinct().groupByKey().cache()
-    
-    
-    val links = in_links.union(out_links)
-    
-//    println("------------")
-//    
-//    links.foreach(println)
-    
-//    links.flatMap{case (obj, subj) => }
-    
-    var ranks = links.mapValues(v => 0.1)
-    
-     var erf = outputPath_1 + Calendar.getInstance().getTime()
-    spark.sparkContext.parallelize(links.join(ranks).collect()).coalesce(1).saveAsTextFile(erf);
-  
-    
-//    links.join(ranks).foreach(println)
-//    
-//    println("------------")
-//    
-//    links.join(ranks).values.foreach(println)
-    
-//       links.join(ranks).values.flatMap(_._1).foreach(println)
+      val inputDbFile = sc.textFile(db_file_path)
+      val lines_2 = inputDbFile.map(dbkwikDs)
+      val lines = lines_2.filter { x => x._1 != "" }
+      
 
-    for (i <- 1 to iters) {
-      val contribs = links.join(ranks).values.flatMap{ case (urls, rank) =>
-        val size = urls.size
-//        println(size.toDouble)
-        urls.map(url => (url, rank / size))
-      }
-      ranks = contribs.reduceByKey(_ + _).mapValues(0.15 + 0.85 * _)
-      println(i)
-      contribs.foreach(println)
+      val obj = lines.map(x => x._1).distinct()
+      val sub = lines.map(x => x._2).distinct() 
+      val verticesWithIndexRdd = obj.union(sub).distinct().zipWithIndex()
+      val indexToVertices = verticesWithIndexRdd.map{case (k,v) => (v,k)}.collectAsMap
+      val verticesToIndex = verticesWithIndexRdd.map{case (k,v) => (k,v)}.collectAsMap
+//      println(verticesToIndex.lookup("Image")(0).getClass)
+//      println(indexToVertices.lookup(9)(0))
+//      println(verticesToIndex("Image"))
+//      println(indexToVertices(9))
+      println("1")
+      
+//      indexToVertices.foreach(println)
+      
+       //convert tuples into Edge's
+      val edges = lines.map(l => Edge(verticesToIndex(l._1), verticesToIndex(l._2), None))
+        println("2")
+      val g = Graph.fromEdges(edges, "none")
+ println("3")
+      // run 40 iterations of pagerank
+      val iters = 40
+      
+//      val v = PageRank.run(g, iters).vertices
+      val v = g.pageRank(0.0001).vertices
+       println("4")
+//      val rank = v.map(v => Map("id" -> indexToVertices(v._1.toLong), "rank" -> v._2.toDouble))
+      val rank = v.map(v => (indexToVertices(v._1.toLong),v._2.toDouble))
+       println("5")
+      var fileNm = outputPath_1 + Calendar.getInstance().getTimeInMillis()
+      rank.saveAsTextFile(fileNm);
+      
+      
+//      rank.foreach(println)
+      sc.stop()
+      var end_time = Calendar.getInstance().getTime()
+      var total_time = end_time.getTime() - start_time.getTime()
+      println("Total TIME:- " + start_time + " -- " + end_time + " --> " + total_time)
+    } catch {
+      case e: Exception => e.fillInStackTrace()
     }
-
-    val output = ranks.collect()
-    output.foreach(tup => println(tup._1 + " has rank: " + tup._2 + "."))
-
-    
-    spark.stop()
   }
-    
-    
-    def dbkwikDs(line: String): String = {
+
+  def dbkwikDs(line: String): (String, String) = {
 
     var NQ_PATTERN = "^(?:<([^>]+)>\\s*){4}\\s*.".r;
     var NT_PATTERN = "^(?:<([^>]+)>\\s*){3}\\s*.".r;
-    
+
     if (NQ_PATTERN.pattern.matcher(line).matches || NT_PATTERN.pattern.matcher(line).matches) {
       val fields = line.split(">\\s*")
       if (fields.length > 2) {
         val _subject = fields(0).substring(1)
         val _object = fields(2).substring(1)
-        return _object+" "+_subject
+        return (_object , _subject)
       } else {
-        ""
+        ("", "")
       }
     } else {
-      ""
+      ("", "")
     }
 
   }
-    
+
 }

@@ -34,29 +34,20 @@ object SparkPageRank {
     }.distinct().groupByKey().cache()
     
     var ranks = links.mapValues(v => 0.1)
-    var erf = outputPath_1 + Calendar.getInstance().getTime()
-    spark.sparkContext.parallelize(links.join(ranks).collect()).coalesce(1).saveAsTextFile(erf);
     
-    
-    links.join(ranks).foreach(println)
-    
-    println("------------")
-    
-    links.join(ranks).values.foreach(println)
-    
-//    for (i <- 1 to iters) {
-//      val contribs = links.join(ranks).values.flatMap{ case (urls, rank) =>
-//        val size = urls.size
-//        println(size.toDouble)
-//        urls.map(url => (url, rank / size))
-//      }
-//      ranks = contribs.reduceByKey(_ + _).mapValues(0.15 + 0.85 * _)
-//    }
-//
-//    val output = ranks.collect()
-//    output.foreach(tup => println(tup._1 + " has rank: " + tup._2 + "."))
 
+    
+    for (i <- 1 to iters) {
+      val contribs = links.join(ranks).values.flatMap{ case (urls, rank) =>
+        val size = urls.size
+        println(size.toDouble)
+        urls.map(url => (url, rank / size))
+      }
+      ranks = contribs.reduceByKey(_ + _).mapValues(0.15 + 0.85 * _)
+    }
 
+    val output = ranks.collect()
+    output.foreach(tup => println(tup._1 + " has rank: " + tup._2 + "."))
     
     spark.stop()
   }
