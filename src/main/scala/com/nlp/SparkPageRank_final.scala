@@ -52,10 +52,10 @@ object SparkPageRank_final {
       //-----------STEP_5 END------------//
 
       //-----------STEP_6 START------------//
-//            var rankFlNM = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_61518160567965"
-//      //      var IndexToVerticesFlNM = indxNodeFileNm._1
-//            var IndexToVerticesFlNM = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_21518159010031"
-//            var saveRankFlNm = saveRank(rankFlNM, IndexToVerticesFlNM)
+            var rankFlNM = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_61518160567965"
+      //      var IndexToVerticesFlNM = indxNodeFileNm._1
+            var IndexToVerticesFlNM = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_21518159010031"
+            var saveRankFlNm = saveRank(rankFlNM, IndexToVerticesFlNM)
 //            println(saveRankFlNm)//file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_61517958811115
       //-----------STEP_6 END------------//
 
@@ -261,7 +261,9 @@ object SparkPageRank_final {
       val lines = sp.sparkContext.textFile(rankFlNM)
       val IndexToVertices = sp.sparkContext.textFile(IndxNodeFlNm).map { x => x.split("\\s")(0) -> x.split("\\s")(1) }
       val IndexToVerticesMap = IndexToVertices.collectAsMap()
-      val rankVal = lines.map(l => IndexToVerticesMap(l.split("\\s")(0)) + " "+ l.split("\\s")(1).toDouble)
+//      val rankVal = lines.map(l => IndexToVerticesMap(l.split("\\s")(0)) + " "+ l.split("\\s")(1).toDouble)
+      val rankVal = lines.map(l => "<" + IndexToVerticesMap(l.split("\\s")(0)) + ">" + " <http://purl.org/voc/vrank#pagerank> \"" + l.split("\\s")(1).toDouble + "\"^^<http://www.w3.org/2001/XMLSchema#double> .")
+      
 
       val outputPath_7 = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_7"
       var fileNm_7 = outputPath_7 + Calendar.getInstance().getTimeInMillis()
