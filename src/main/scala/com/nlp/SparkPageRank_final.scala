@@ -19,42 +19,42 @@ object SparkPageRank_final {
 
       //-----------STEP_1 START------------//
 //            var loadFileNm = readAndLoadData()
-//            println(loadFileNm) ///file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_11518158374714
+//            println(loadFileNm) ///file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_11520047585103
       //-----------STEP_1 END------------//
 
       //-----------STEP_2 START------------//
-//            var loadFileNm = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_11518158374714"
+//            var loadFileNm = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_11520047585103"
 //            var indxNodeFileNm = saveNodeIndx(loadFileNm)
 //            println(indxNodeFileNm)
-//(file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_21518159010031,
-//    file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_31518159027993)
+//(file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_21520048186469,
+//    file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_31520048189429)
 
       //-----------STEP_2 END------------//
 
       //-----------STEP_3 START------------//
-//            var loadFileNm = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_11518158374714"
+//            var loadFileNm = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_11520047585103"
 //      //      var verticesToIndexFlNM = indxNodeFileNm._2
-//            var verticesToIndexFlNM = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_31518159027993"
+//            var verticesToIndexFlNM = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_31520048189429"
 //            var edgeFlNM = populateEdges(loadFileNm, verticesToIndexFlNM)
-//            println(edgeFlNM) //file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_41518159300586
+//            println(edgeFlNM) //file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_41520048341664
       //-----------STEP_3 END------------//
 
       //-----------STEP_4 START------------//
-//      var edgeFlNM = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_41518159300586"
+//      var edgeFlNM = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_41520048341664"
 //      var graphFlNM = populateGraphDtl(edgeFlNM)
-//      println(graphFlNM) //file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_51518159779153
+//      println(graphFlNM) //file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_51520066528190
       //-----------STEP_4 END------------//
       
       //-----------STEP_5 START------------//
-//      var graphFlNM = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_51518159779153"
+//      var graphFlNM = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_51520066528190"
 //      var rankFlNM = populateRank(graphFlNM)
-//      println(rankFlNM) //file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_61518160567965
+//      println(rankFlNM) //file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_61520066921086
       //-----------STEP_5 END------------//
 
       //-----------STEP_6 START------------//
-            var rankFlNM = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_61518160567965"
+            var rankFlNM = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_61520066921086"
       //      var IndexToVerticesFlNM = indxNodeFileNm._1
-            var IndexToVerticesFlNM = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_21518159010031"
+            var IndexToVerticesFlNM = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_21520048186469"
             var saveRankFlNm = saveRank(rankFlNM, IndexToVerticesFlNM)
 //            println(saveRankFlNm)//file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_61517958811115
       //-----------STEP_6 END------------//
@@ -104,10 +104,11 @@ object SparkPageRank_final {
 
     var NQ_PATTERN = "^(?:<([^>]+)>\\s*){4}\\s*.".r;
     var NT_PATTERN = "^(?:<([^>]+)>\\s*){3}\\s*.".r;
+    var PREFIX_STR = "http://dbkwik.webdatacommons.org";
 
     if (NQ_PATTERN.pattern.matcher(line).matches || NT_PATTERN.pattern.matcher(line).matches) {
       val fields = line.split(">\\s*")
-      if (fields.length > 2) {
+      if (fields.length > 2 && fields(0).substring(1).startsWith(PREFIX_STR) && fields(2).substring(1).startsWith(PREFIX_STR)) {
         val _subject = fields(0).substring(1)
         val _object = fields(2).substring(1)
         return _subject+ " " +_object
@@ -175,7 +176,7 @@ object SparkPageRank_final {
     if(None == linesMapOutLink.get(v)){
       return 0
     }else{
-      return linesMapOutLink.get(v).size
+      return linesMapOutLink.get(v).get.size
     }
   }
   
