@@ -45,7 +45,9 @@ object FetchURI {
     val IndexToVerticesMap = IndexToVertices.collectAsMap()
 
     
-    var ranksRdd = lines.map(v => IndexToVerticesMap(v.split("\\s")(0)) +","+ getNumIncomingNode(v.split("\\s")(1)) +","+ getNumOutgoingNode(v.split("\\s")(2))+","+getTotal(v.split("\\s")(1), v.split("\\s")(2)))
+    var ranksRdd = lines.map(v => IndexToVerticesMap(v.split("\\s")(0)) +"|"+ 
+        getNumIncomingNode(v.split("\\s")(0),v.split("\\s")(1)) +"|"+ getNumOutgoingNode(v.split("\\s")(2))+"|"+
+        getTotal(v.split("\\s")(1), v.split("\\s")(2)))
     
     val outputPath_8 = "file:///Users/jaydeep/jaydeep_workstation/ASU/Spring2018/NLP_576/file_8"
     var fileNm_8 = outputPath_8 + Calendar.getInstance().getTimeInMillis()
@@ -53,9 +55,10 @@ object FetchURI {
     
   }
   
-  def getNumIncomingNode(incomingStr : String):Long = {
-    if(null == incomingStr.split(",")){
-      return 0
+  def getNumIncomingNode(valStr : String,incomingStr : String):Long = {
+
+    if(incomingStr.isEmpty){
+      return 0L
     }else{
       return incomingStr.split(",").size
     }
@@ -66,8 +69,8 @@ object FetchURI {
   }
   
   def getTotal(incomingStr : String, outgoingStr : String):Long = {
-    if(null == incomingStr.split(",")){
-      return 0 + outgoingStr.toLong
+    if(incomingStr.isEmpty){
+      return 0L + outgoingStr.toLong
     }else{
       return incomingStr.split(",").size + outgoingStr.toLong
     }
