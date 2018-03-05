@@ -1,0 +1,63 @@
+lines
+
+----------------------------START----------------------------
+http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg
+http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1 http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg
+http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_2 http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg
+http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/NWImage_1 http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1
+http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_3 http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg
+http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/NWImage_2 http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1
+http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_4 http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg
+http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_5 http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg
+http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_6 http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg
+----------------------------END----------------------------
+
+
+in_links
+
+----------------------------START----------------------------
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_6,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/NWImage_1,CompactBuffer(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_4,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_5,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_2,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/NWImage_2,CompactBuffer(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_3,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+----------------------------END----------------------------
+
+out_links
+----------------------------START----------------------------
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1,CompactBuffer())
+(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg,CompactBuffer())
+----------------------------END----------------------------
+
+links
+----------------------------START----------------------------
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_6,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/NWImage_1,CompactBuffer(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_4,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_2,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_5,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/NWImage_2,CompactBuffer(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_3,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1,CompactBuffer())
+(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg,CompactBuffer())
+----------------------------END----------------------------
+
+----------------------------START----------------------------
+(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg,CompactBuffer())
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_6,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_3,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_2,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/NWImage_1,CompactBuffer(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1,CompactBuffer())
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_5,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/NWImage_2,CompactBuffer(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_1))
+(http://dbkwik.webdatacommons.org/Fairly_Odd_Parents_Wik/ontology/Image_4,CompactBuffer(http://commons.wikimedia.org/wiki/Special:FilePath/;_Rock_Star.jpg))
+----------------------------END----------------------------

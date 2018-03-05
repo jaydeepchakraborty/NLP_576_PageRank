@@ -1,2 +1,9 @@
 target
 .eclipse*
+.classpath
+.project
+NLP_576_MVN.iml
+.idea
+.settings
+.cache-main
+*.nt
